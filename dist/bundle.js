@@ -24581,7 +24581,11 @@ var _reactRedux = __webpack_require__(61);
 
 var _redux = __webpack_require__(34);
 
-var _localStore = __webpack_require__(60);
+var _util = __webpack_require__(241);
+
+var _global = __webpack_require__(240);
+
+var _global2 = _interopRequireDefault(_global);
 
 var _reducer = __webpack_require__(102);
 
@@ -24594,48 +24598,16 @@ var _component2 = _interopRequireDefault(_component);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // configuration
-var config = {
-  renderReducer: _reducer2.default,
-  RenderComponent: _component2.default
-};
+_global2.default.renderReducer = _reducer2.default;
+_global2.default.RenderComponent = _component2.default;
+_global2.default.renderProject = 'rudiment';
 
-/**
- * Logs all actions and states after they are dispatched.
- */
-var logger = function logger(store) {
-  return function (next) {
-    return function (action) {
-      console.group(action.type);
-      console.info('dispatching', action);
-      var result = next(action);
-      console.log('next state', store.getState());
-      console.groupEnd(action.type);
-      return result;
-    };
-  };
-};
-
-/**
- * Sync the localStorage
- */
-// const setStateToLocalStore = store => next => action => {
-//   let result = next(action)
-
-//   // save state to localStorage
-//   setLocalStore(store.getState())
-
-//   // Console
-//   // console.log('before localStorage state: ', store.getState())
-//   console.log('localStorage: ', getLocalStore())
-//   return result
-// }
-
-var store = (0, _redux.createStore)(config.renderReducer, (0, _redux.applyMiddleware)(logger));
+var store = (0, _redux.createStore)(_global2.default.renderReducer, (0, _redux.applyMiddleware)(_util.logger, _util.setStateToLocalStore));
 
 _reactDom2.default.render(_react2.default.createElement(
   _reactRedux.Provider,
   { store: store },
-  _react2.default.createElement(config.RenderComponent, null)
+  _react2.default.createElement(_global2.default.RenderComponent, null)
 ), document.getElementById('app'));
 
 /***/ }),
@@ -24731,6 +24703,103 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 var BoardContainer = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_Board2.default);
 
 exports.default = BoardContainer;
+
+/***/ }),
+/* 240 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var GV = {
+  renderReducer: null,
+  RenderComponent: null,
+  renderProject: null
+
+};
+
+exports.default = GV;
+
+/***/ }),
+/* 241 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.setStateToLocalStore = exports.logger = undefined;
+
+var _global = __webpack_require__(240);
+
+var _global2 = _interopRequireDefault(_global);
+
+var _localStore = __webpack_require__(242);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * console the dispatching and state info
+ */
+var logger = exports.logger = function logger(store) {
+  return function (next) {
+    return function (action) {
+      console.group(action.type);
+      console.info('dispatching', action);
+      var result = next(action);
+      console.log('next state', store.getState());
+      console.groupEnd(action.type);
+      return result;
+    };
+  };
+};
+
+/**
+ * Sync the localStorage
+ */
+var setStateToLocalStore = exports.setStateToLocalStore = function setStateToLocalStore(store) {
+  return function (next) {
+    return function (action) {
+      var result = next(action);
+      var renderProject = _global2.default.renderProject;
+      // save state to localStorage
+
+      (0, _localStore.setLocalStore)(renderProject, store.getState());
+
+      // Console
+      // console.log('before localStorage state: ', store.getState())
+      console.log('localStorage: ', (0, _localStore.getLocalStore)(renderProject));
+      return result;
+    };
+  };
+};
+
+/***/ }),
+/* 242 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var getLocalStore = exports.getLocalStore = function getLocalStore(key) {
+  try {
+    return JSON.parse(localStorage[key]);
+  } catch (e) {
+    return {};
+  }
+};
+
+var setLocalStore = exports.setLocalStore = function setLocalStore(key, object) {
+  localStorage[key] = JSON.stringify(object);
+};
 
 /***/ })
 /******/ ]);
