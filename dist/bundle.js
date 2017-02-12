@@ -24595,12 +24595,20 @@ var _component = __webpack_require__(101);
 
 var _component2 = _interopRequireDefault(_component);
 
+var _reducer3 = __webpack_require__(244);
+
+var _reducer4 = _interopRequireDefault(_reducer3);
+
+var _component3 = __webpack_require__(243);
+
+var _component4 = _interopRequireDefault(_component3);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // configuration
-_global2.default.renderReducer = _reducer2.default;
-_global2.default.RenderComponent = _component2.default;
-_global2.default.renderProject = 'rudiment';
+_global2.default.renderReducer = _reducer4.default;
+_global2.default.RenderComponent = _component4.default;
+_global2.default.renderProject = 'primary';
 
 var store = (0, _redux.createStore)(_global2.default.renderReducer, (0, _redux.applyMiddleware)(_util.logger, _util.setStateToLocalStore));
 
@@ -24800,6 +24808,192 @@ var getLocalStore = exports.getLocalStore = function getLocalStore(key) {
 var setLocalStore = exports.setLocalStore = function setLocalStore(key, object) {
   localStorage[key] = JSON.stringify(object);
 };
+
+/***/ }),
+/* 243 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(19);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _BoardContainer = __webpack_require__(247);
+
+var _BoardContainer2 = _interopRequireDefault(_BoardContainer);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Rudiment = function Rudiment() {
+  return _react2.default.createElement(
+    'div',
+    null,
+    _react2.default.createElement(_BoardContainer2.default, null)
+  );
+};
+
+exports.default = Rudiment;
+
+/***/ }),
+/* 244 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _redux = __webpack_require__(34);
+
+var _localStore = __webpack_require__(242);
+
+var localStore = (0, _localStore.getLocalStore)('primary');
+
+var primary = function primary() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var action = arguments[1];
+
+  switch (action.type) {
+    case 'SING':
+      return {
+        doing: action.result
+      };
+    case 'DANCE':
+      return {
+        doing: action.result
+      };
+  }
+};
+
+exports.default = primary;
+
+/***/ }),
+/* 245 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var SING = 'SING';
+var DANCE = 'DANCE';
+
+var sing = exports.sing = function sing() {
+  return {
+    type: SING,
+    result: 'It is singing!'
+  };
+};
+
+var dance = exports.dance = function dance() {
+  return {
+    type: DANCE,
+    result: 'It is dancing!'
+  };
+};
+
+/***/ }),
+/* 246 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(19);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Board = function Board(_ref) {
+  var doing = _ref.doing,
+      onSingClick = _ref.onSingClick,
+      onDanceClick = _ref.onDanceClick;
+
+  // console.log(1, doing)
+  return _react2.default.createElement(
+    'div',
+    null,
+    _react2.default.createElement(
+      'h1',
+      null,
+      doing
+    ),
+    _react2.default.createElement(
+      'button',
+      { onClick: onSingClick },
+      'Sing'
+    ),
+    _react2.default.createElement(
+      'button',
+      { onClick: onDanceClick },
+      'Dance'
+    )
+  );
+};
+
+exports.default = Board;
+
+/***/ }),
+/* 247 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(19);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(61);
+
+var _Board = __webpack_require__(246);
+
+var _Board2 = _interopRequireDefault(_Board);
+
+var _action = __webpack_require__(245);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var mapStateToProps = function mapStateToProps(state) {
+  console.log(2, state);
+  return {
+    doing: state ? state.doing : null
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    onSingClick: function onSingClick() {
+      dispatch((0, _action.sing)());
+    },
+    onDanceClick: function onDanceClick() {
+      dispatch((0, _action.dance)());
+    }
+  };
+};
+
+var BoardContainer = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_Board2.default);
+
+exports.default = BoardContainer;
 
 /***/ })
 /******/ ]);

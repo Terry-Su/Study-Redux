@@ -7,12 +7,14 @@ import GV from './util/global'
 
 import rudiment from './rudiment/reducer'
 import Rudiment from './rudiment/component'
+import primary from './primary/reducer'
+import Primary from './Primary/component'
 
 
 // configuration
-GV.renderReducer = rudiment
-GV.RenderComponent = Rudiment
-GV.renderProject = 'rudiment'
+GV.renderReducer = primary
+GV.RenderComponent = Primary
+GV.renderProject = 'primary'
 
 let store = createStore(
   GV.renderReducer,

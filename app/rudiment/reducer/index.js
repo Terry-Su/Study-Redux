@@ -1,10 +1,9 @@
-import { combineReducers } from 'redux'
 import { getLocalStore } from '../../util/localStore'
 
 
 const localStore = getLocalStore('rudiment')
 
-const rudiment = (state = {}, action) => {
+const rudiment = (state = localStore, action) => {
   switch (action.type) {
     case 'SING': 
       return {
