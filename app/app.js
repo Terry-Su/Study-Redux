@@ -19,7 +19,7 @@ GV.renderProject = 'primary'
 let store = createStore(
   GV.renderReducer,
   applyMiddleware(logger, setStateToLocalStore)
-);
+)
 
 ReactDOM.render(
   <Provider store={store}>
