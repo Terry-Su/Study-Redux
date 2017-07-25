@@ -1,12 +1,15 @@
 import React from 'react'
 
-const Board = ({ doing, onSingClick, onDanceClick }) => {
-  // console.log(1, doing)
+
+
+const Board = ({ doing, sing, dance, onHop, callback }) => {
   return (
     <div>
       <h1>{doing}</h1>
-      <button onClick={onSingClick}>Sing</button>
-      <button onClick={onDanceClick}>Dance</button>
+      <button onClick={sing}>Sing</button>
+      <button onClick={dance}>Dance</button>
+      <button onClick={onHop}>Hop</button>
+      <button onClick={ () => { callback(`I'm the callback of Board`) } }>callback tester</button>
     </div>
   )
 }

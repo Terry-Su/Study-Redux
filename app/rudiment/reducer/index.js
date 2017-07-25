@@ -13,6 +13,10 @@ const rudiment = (state = localStore, action) => {
       return {
         doing: action.result
       }
+    case 'HOP': 
+      return {
+        doing: action.result
+      }
   }
 }
 

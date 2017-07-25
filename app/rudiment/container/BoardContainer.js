@@ -1,23 +1,25 @@
 import React from 'react'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 import Board from '../component/Board'
-import { sing, dance } from '../action'
+import * as actions from '../action'
 
-const mapStateToProps = (state) => {
-  console.log(2, state);
+
+
+
+const mapStateToProps = state => {
   return {
     doing: state ? state.doing : null
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
+  let boundActionCreators = bindActionCreators(actions, dispatch)
   return {
-    onSingClick: () => {
-      dispatch(sing())
-    },
-    onDanceClick: () => {
-      dispatch(dance())
+    ...boundActionCreators,
+    onHop() {
+      dispatch(actions.hop())
     }
   }
 } 
